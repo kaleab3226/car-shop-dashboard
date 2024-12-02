@@ -12,7 +12,6 @@ const TaskDetails = () => {
   useEffect(() => {
     const fetchTaskDetail = async () => {
       try {
-        // Replace with your API endpoint to fetch task details
         const response = await fetch(`/api/tasks/${taskId}`);
         if (!response.ok) {
           throw new Error("Failed to fetch task details");
@@ -48,40 +47,85 @@ const TaskDetails = () => {
     }
   };
 
+  // Format date to local string with a fallback for invalid date
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    if (isNaN(date)) {
+      return "Invalid Date";
+    }
+    return date.toLocaleString();
+  };
+
   if (loading) {
-    return <p>Loading task details...</p>;
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p className="text-xl text-blue-600">Loading task details...</p>
+      </div>
+    );
   }
 
   if (error) {
-    return <p>Error: {error}</p>;
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p className="text-xl text-red-600">Error: {error}</p>
+      </div>
+    );
   }
 
   return (
-    <div>
-      <h2>Task Details</h2>
-      <p><strong>Car:</strong> {task.car}</p>
-      <p><strong>Service Type:</strong> {task.serviceType}</p>
-      <p><strong>Priority:</strong> {task.priority}</p>
-      <p><strong>Status:</strong> {task.status}</p>
-      <p><strong>Deadline:</strong> {new Date(task.deadline).toLocaleString()}</p>
-      <p><strong>Notes:</strong> {task.notes || "No notes provided."}</p>
+    <div className="min-h-screen bg-gradient-to-b from-blue-900 to-blue-600 text-white p-8">
+      <div className="max-w-4xl mx-auto bg-blue-700 p-6 rounded-lg shadow-xl">
+        <h2 className="text-3xl font-bold text-center mb-6">Task Details</h2>
 
-      <div>
-        {task.status === "Pending" && (
-          <button onClick={() => updateTaskStatus("In Progress")}>
-            Start Task
+        <div className="space-y-4">
+          <div>
+            <strong>Car:</strong> {task.car}
+          </div>
+          <div>
+            <strong>Service Type:</strong> {task.serviceType}
+          </div>
+          <div>
+            <strong>Priority:</strong> {task.priority}
+          </div>
+          <div>
+            <strong>Status:</strong> {task.status}
+          </div>
+          <div>
+            <strong>Deadline:</strong> {formatDate(task.deadline)}
+          </div>
+          <div>
+            <strong>Notes:</strong> {task.notes || "No notes provided."}
+          </div>
+        </div>
+
+        <div className="mt-6 flex justify-between items-center">
+          {task.status === "Pending" && (
+            <button
+              onClick={() => updateTaskStatus("In Progress")}
+              className="bg-yellow-500 text-white px-6 py-2 rounded-lg hover:bg-yellow-600 transition duration-300"
+            >
+              Start Task
+            </button>
+          )}
+          {task.status === "In Progress" && (
+            <button
+              onClick={() => updateTaskStatus("Completed")}
+              className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+            >
+              Complete Task
+            </button>
+          )}
+        </div>
+
+        <div className="mt-4 text-center">
+          <button
+            onClick={() => navigate("/assigned-tasks")}
+            className="bg-gray-800 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition duration-300"
+          >
+            Back to Task List
           </button>
-        )}
-        {task.status === "In Progress" && (
-          <button onClick={() => updateTaskStatus("Completed")}>
-            Complete Task
-          </button>
-        )}
+        </div>
       </div>
-
-      <button onClick={() => navigate("/assigned-tasks")}>
-        Back to Task List
-      </button>
     </div>
   );
 };

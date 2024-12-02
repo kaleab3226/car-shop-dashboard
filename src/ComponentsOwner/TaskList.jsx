@@ -7,36 +7,34 @@ const TaskList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
 
-  // Example tasks (for testing purposes)
-  const exampleTasks = [
-    {
-      id: 1,
-      car: "Toyota Corolla",
-      serviceType: "Oil Change",
-      mechanicName: "John Doe",
-      priority: "Medium",
-      status: "Pending",
-    },
-    {
-      id: 2,
-      car: "Honda Civic",
-      serviceType: "Tire Rotation",
-      mechanicName: "Jane Smith",
-      priority: "High",
-      status: "In Progress",
-    },
-    {
-      id: 3,
-      car: "Ford Focus",
-      serviceType: "Brake Inspection",
-      mechanicName: "John Doe",
-      priority: "Low",
-      status: "Completed",
-    },
-  ];
-
   // Simulate fetching tasks from the server (replace with actual fetch if needed)
   useEffect(() => {
+    const exampleTasks = [
+      {
+        id: 1,
+        car: "Toyota Corolla",
+        serviceType: "Oil Change",
+        mechanicName: "John Doe",
+        priority: "Medium",
+        status: "Pending",
+      },
+      {
+        id: 2,
+        car: "Honda Civic",
+        serviceType: "Tire Rotation",
+        mechanicName: "Jane Smith",
+        priority: "High",
+        status: "In Progress",
+      },
+      {
+        id: 3,
+        car: "Ford Focus",
+        serviceType: "Brake Inspection",
+        mechanicName: "John Doe",
+        priority: "Low",
+        status: "Completed",
+      },
+    ];
     setTasks(exampleTasks); // Set example tasks to state
   }, []); // Empty dependency array ensures this only runs on mount
 

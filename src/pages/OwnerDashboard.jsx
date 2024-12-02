@@ -1,62 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import TaskAssignmentForm from "../ComponentsOwner/TaskAssignmentForm";
-import CarProgressTable from "../ComponentsOwner/CarProgressTable";
-import Notifications from "../ComponentsOwner/Notifications";
 
 const OwnerDashboard = () => {
   const navigate = useNavigate();
-  const [tasks, setTasks] = useState([]);
-  const [mechanics] = useState([
-    { id: 1, name: "John Doe" },
-    { id: 2, name: "Jane Smith" },
-  ]);
-  const [notifications, setNotifications] = useState([]);
-
-  // Function to handle new task submission
-  const handleTaskSubmit = (task) => {
-    const newTask = {
-      ...task,
-      id: tasks.length + 1,
-      status: "Pending",
-    };
-    setTasks((prevTasks) => [...prevTasks, newTask]);
-
-    // Create a notification for the new task assignment
-    addNotification(`New task assigned for ${task.car}: ${task.serviceType}`);
-  };
-
-  // Function to handle task status updates
-  const updateTaskStatus = (taskId, status) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) =>
-        task.id === taskId ? { ...task, status } : task
-      )
-    );
-
-    const task = tasks.find((t) => t.id === taskId);
-    addNotification(`Task for ${task?.car} marked as ${status}`);
-  };
-
-  // Function to handle task deletion
-  const handleTaskDelete = (taskId) => {
-    const taskToDelete = tasks.find((task) => task.id === taskId);
-    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
-
-    addNotification(`Task for ${taskToDelete?.car} deleted.`);
-  };
-
-  // Function to add a notification
-  const addNotification = (message) => {
-    setNotifications((prevNotifications) => [
-      ...prevNotifications,
-      {
-        id: prevNotifications.length + 1,
-        message,
-        date: new Date().toLocaleString(),
-      },
-    ]);
-  };
 
   return (
     <div className="flex min-h-screen bg-gradient-to-b from-gray-800 to-gray-900">
