@@ -8,52 +8,62 @@ const TaskDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Fetch task details when the component loads or taskId changes
+  // Simulating the example tasks inside useEffect
   useEffect(() => {
-    const fetchTaskDetail = async () => {
-      try {
-        const response = await fetch(`/api/tasks/${taskId}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch task details");
-        }
-        const data = await response.json();
-        setTask(data);
-        setLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
-      }
-    };
+    const exampleTasks = [
+      {
+        id: 1,
+        car: "Toyota Corolla",
+        serviceType: "Oil Change",
+        mechanicName: "John Doe",
+        priority: "Medium",
+        status: "Pending",
+        deadline: "2024-12-15T10:00:00",
+        notes: "Full synthetic oil requested.",
+      },
+      {
+        id: 2,
+        car: "Honda Civic",
+        serviceType: "Tire Rotation",
+        mechanicName: "Jane Smith",
+        priority: "High",
+        status: "In Progress",
+        deadline: "2024-12-16T14:00:00",
+        notes: "Rotating all four tires.",
+      },
+      {
+        id: 3,
+        car: "Ford Focus",
+        serviceType: "Brake Inspection",
+        mechanicName: "John Doe",
+        priority: "Low",
+        status: "Completed",
+        deadline: "2024-12-12T09:00:00",
+        notes: "Brakes are in good condition.",
+      },
+    ];
 
-    fetchTaskDetail(); // Fetch task details when the component is mounted
-  }, [taskId]); // This will trigger when taskId changes in the URL
-
-  // Function to update task status
-  const updateTaskStatus = async (status) => {
-    try {
-      const response = await fetch(`/api/tasks/${taskId}/status`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status }),
-      });
-      if (!response.ok) {
-        throw new Error("Failed to update task status");
-      }
-      setTask({ ...task, status }); // Update the task status in state
-      alert("Task status updated successfully!");
-    } catch (err) {
-      console.error(err);
-      alert("Error updating task status.");
+    const foundTask = exampleTasks.find((task) => task.id === parseInt(taskId));
+    if (foundTask) {
+      setTask(foundTask);
+      setLoading(false);
+    } else {
+      setError("Task not found");
+      setLoading(false);
     }
-  };
+  }, [taskId]);
 
-  // Format date to local string with a fallback for invalid date
+  // Format the date to a readable string
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    if (isNaN(date)) {
-      return "Invalid Date";
-    }
-    return date.toLocaleString();
+    return isNaN(date) ? "Invalid Date" : date.toLocaleString();
+  };
+
+  // Simulate updating task status (this will be connected to a backend later)
+  const updateTaskStatus = (status) => {
+    const updatedTask = { ...task, status };
+    setTask(updatedTask);
+    alert(`Task status updated to: ${status}`);
   };
 
   if (loading) {
@@ -66,8 +76,17 @@ const TaskDetails = () => {
 
   if (error) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <p className="text-xl text-red-600">Error: {error}</p>
+      <div className="min-h-screen bg-gradient-to-b from-blue-900 to-blue-600 text-white p-8 flex flex-col items-center justify-center">
+        <h2 className="text-3xl font-bold mb-4">Oops! Something went wrong...</h2>
+        <p className="text-xl">{error}</p>
+        <div className="mt-6">
+          <button
+            onClick={() => navigate("/mechanics-dashboard")}
+            className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300"
+          >
+            Back to Mechanic Dashboard
+          </button>
+        </div>
       </div>
     );
   }
@@ -79,22 +98,36 @@ const TaskDetails = () => {
 
         <div className="space-y-4">
           <div>
-            <strong>Car:</strong> {task.car}
+            <strong className="text-xl">Car:</strong> {task.car}
           </div>
           <div>
-            <strong>Service Type:</strong> {task.serviceType}
+            <strong className="text-xl">Service Type:</strong> {task.serviceType}
           </div>
           <div>
-            <strong>Priority:</strong> {task.priority}
+            <strong className="text-xl">Mechanic:</strong> {task.mechanicName}
           </div>
           <div>
-            <strong>Status:</strong> {task.status}
+            <strong className="text-xl">Priority:</strong> {task.priority}
           </div>
           <div>
-            <strong>Deadline:</strong> {formatDate(task.deadline)}
+            <strong className="text-xl">Status:</strong>{" "}
+            <span
+              className={`px-4 py-2 rounded-full text-white ${
+                task.status === "Pending"
+                  ? "bg-yellow-500"
+                  : task.status === "In Progress"
+                  ? "bg-blue-500"
+                  : "bg-green-500"
+              }`}
+            >
+              {task.status}
+            </span>
           </div>
           <div>
-            <strong>Notes:</strong> {task.notes || "No notes provided."}
+            <strong className="text-xl">Deadline:</strong> {formatDate(task.deadline)}
+          </div>
+          <div>
+            <strong className="text-xl">Notes:</strong> {task.notes || "No notes provided."}
           </div>
         </div>
 
@@ -119,10 +152,10 @@ const TaskDetails = () => {
 
         <div className="mt-4 text-center">
           <button
-            onClick={() => navigate("/assigned-tasks")}
+            onClick={() => navigate("/mechanics-dashboard")}
             className="bg-gray-800 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition duration-300"
           >
-            Back to Task List
+            Back to Mechanic Dashboard
           </button>
         </div>
       </div>
