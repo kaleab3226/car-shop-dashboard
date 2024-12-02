@@ -8,14 +8,10 @@ const Billing = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Parse query parameters to determine the current view
+  // Determine the current view based on query parameters
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    if (params.get("view") === "summary") {
-      setView("summary");
-    } else {
-      setView("default");
-    }
+    setView(params.get("view") === "summary" ? "summary" : "default");
   }, [location.search]);
 
   // Handle input changes for adding a card
@@ -49,42 +45,35 @@ const Billing = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-900 to-blue-600 text-white p-6">
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white p-8">
       <div className="flex justify-between items-center mb-6">
         <button
           onClick={handleBack}
-          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+          className="bg-gray-600 hover:bg-gray-500 text-white py-2 px-4 rounded-md"
         >
           ← Back to Dashboard
         </button>
-        <h1 className="text-4xl font-bold">Billing</h1>
+        <h1 className="text-3xl font-bold">Billing</h1>
       </div>
 
       {view === "summary" ? (
-        // Payment Summary View
-        <div className="bg-blue-700 p-6 rounded-md shadow-md">
+        <div className="bg-gray-700 p-6 rounded-lg shadow-lg">
           <h2 className="text-2xl font-bold mb-4">Payment Summary</h2>
           <ul className="space-y-4">
-            <li className="flex justify-between">
-              <span>March 1, 2020</span>
-              <span>$180</span>
-            </li>
-            <li className="flex justify-between">
-              <span>February 10, 2021</span>
-              <span>$250</span>
-            </li>
-            <li className="flex justify-between">
-              <span>April 5, 2020</span>
-              <span>$560</span>
-            </li>
-            <li className="flex justify-between">
-              <span>June 25, 2019</span>
-              <span>$300</span>
-            </li>
+            {[
+              { date: "March 1, 2020", amount: "$180" },
+              { date: "February 10, 2021", amount: "$250" },
+              { date: "April 5, 2020", amount: "$560" },
+              { date: "June 25, 2019", amount: "$300" },
+            ].map((payment, idx) => (
+              <li key={idx} className="flex justify-between">
+                <span>{payment.date}</span>
+                <span>{payment.amount}</span>
+              </li>
+            ))}
           </ul>
 
-          {/* Outstanding Payments Box */}
-          <div className="bg-blue-600 p-6 rounded-md shadow-md mt-6">
+          <div className="bg-gray-600 p-6 rounded-lg shadow-lg mt-6">
             <h3 className="text-2xl font-bold mb-4">Outstanding Payments</h3>
             <ul className="space-y-4">
               <li className="flex justify-between">
@@ -105,10 +94,8 @@ const Billing = () => {
           </div>
         </div>
       ) : (
-        // Default Billing View
         <>
-          {/* Outstanding Payments (Due Charges) */}
-          <div className="bg-blue-700 p-6 rounded-md shadow-md mb-6">
+          <div className="bg-gray-700 p-6 rounded-lg shadow-lg mb-6">
             <h2 className="text-2xl font-bold mb-4">Outstanding Payments</h2>
             <ul className="space-y-4">
               <li className="flex justify-between">
@@ -116,22 +103,21 @@ const Billing = () => {
                 <span>$100</span>
               </li>
               <li className="flex justify-between">
-              <span>Brake Check</span>
+                <span>Brake Check</span>
                 <span>$150</span>
               </li>
             </ul>
           </div>
 
-          {/* Add Payment Method */}
-          <div className="bg-blue-700 p-6 rounded-md shadow-md mb-6">
+          <div className="bg-gray-700 p-6 rounded-lg shadow-lg mb-6">
             <h2 className="text-2xl font-bold mb-4">Add Payment Method</h2>
-            <div className="bg-gradient-to-r from-gray-300 to-gray-100 text-black rounded-lg p-4 shadow-md w-96 mx-auto">
+            <div className="bg-gray-800 text-white rounded-lg p-4 shadow-md w-96 mx-auto">
               <input
                 type="text"
                 name="name"
                 value={cardDetails.name}
                 onChange={handleInputChange}
-                className="w-full p-2 rounded-md mb-4 border border-gray-400"
+                className="w-full p-2 rounded-md mb-4 bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Name on Card"
               />
               <input
@@ -139,7 +125,7 @@ const Billing = () => {
                 name="number"
                 value={cardDetails.number}
                 onChange={handleInputChange}
-                className="w-full p-2 rounded-md mb-4 border border-gray-400"
+                className="w-full p-2 rounded-md mb-4 bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Card Number (1234 5678 9101 1121)"
               />
               <input
@@ -147,7 +133,7 @@ const Billing = () => {
                 name="expiry"
                 value={cardDetails.expiry}
                 onChange={handleInputChange}
-                className="w-full p-2 rounded-md mb-4 border border-gray-400"
+                className="w-full p-2 rounded-md mb-4 bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Expiry Date (MM/YY)"
               />
               <button
@@ -159,15 +145,14 @@ const Billing = () => {
             </div>
           </div>
 
-          {/* Saved Cards */}
-          <div className="bg-blue-700 p-6 rounded-md shadow-md mb-6">
+          <div className="bg-gray-700 p-6 rounded-lg shadow-lg mb-6">
             <h2 className="text-2xl font-bold mb-4">Saved Cards</h2>
             <div className="flex flex-wrap gap-4">
               {cards.length > 0 ? (
                 cards.map((card, index) => (
                   <div
                     key={index}
-                    className="bg-gradient-to-r from-gray-300 to-gray-100 text-black rounded-lg p-4 shadow-md w-96"
+                    className="bg-gray-800 text-white rounded-lg p-4 shadow-md w-96"
                   >
                     <p className="text-lg font-semibold mb-2">{card.name}</p>
                     <p className="text-xl font-bold mb-2">**** {card.number.slice(-4)}</p>

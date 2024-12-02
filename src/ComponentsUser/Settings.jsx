@@ -23,15 +23,15 @@ const Settings = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-900 to-blue-600 text-white p-6">
-      <div className="max-w-3xl mx-auto bg-blue-800 p-8 rounded-md shadow-md">
-        <h1 className="text-3xl font-bold mb-6 text-center">Settings</h1>
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white p-8 flex justify-center items-center">
+      <div className="max-w-3xl w-full bg-gray-700 p-10 rounded-lg shadow-lg">
+        <h1 className="text-3xl font-bold mb-8 text-center">Settings</h1>
 
         {/* Form */}
         <form className="space-y-6">
           {/* Username */}
           <div>
-            <label htmlFor="username" className="block text-lg font-medium mb-2">
+            <label htmlFor="username" className="block font-semibold mb-2">
               Username
             </label>
             <input
@@ -39,13 +39,13 @@ const Settings = () => {
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full p-3 rounded bg-blue-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full p-3 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
           {/* Email */}
           <div>
-            <label htmlFor="email" className="block text-lg font-medium mb-2">
+            <label htmlFor="email" className="block font-semibold mb-2">
               Email
             </label>
             <input
@@ -53,13 +53,13 @@ const Settings = () => {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-3 rounded bg-blue-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full p-3 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
           {/* Password */}
           <div>
-            <label htmlFor="password" className="block text-lg font-medium mb-2">
+            <label htmlFor="password" className="block font-semibold mb-2">
               Password
             </label>
             <input
@@ -68,7 +68,7 @@ const Settings = () => {
               placeholder="Enter new password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 rounded bg-blue-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full p-3 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
@@ -79,23 +79,23 @@ const Settings = () => {
               id="notifications"
               checked={notifications}
               onChange={() => setNotifications(!notifications)}
-              className="h-5 w-5 text-blue-500 rounded focus:ring-blue-400"
+              className="h-5 w-5 text-blue-500 rounded focus:ring-blue-500"
             />
-            <label htmlFor="notifications" className="ml-3 text-lg">
+            <label htmlFor="notifications" className="ml-3 font-semibold">
               Enable Notifications
             </label>
           </div>
 
           {/* Theme */}
           <div>
-            <label htmlFor="theme" className="block text-lg font-medium mb-2">
+            <label htmlFor="theme" className="block font-semibold mb-2">
               Theme
             </label>
             <select
               id="theme"
               value={theme}
               onChange={(e) => setTheme(e.target.value)}
-              className="w-full p-3 rounded bg-blue-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full p-3 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option>Light</option>
               <option>Dark</option>
@@ -106,7 +106,7 @@ const Settings = () => {
           <button
             type="button"
             onClick={handleSaveChanges}
-            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded"
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded-md"
           >
             Save Changes
           </button>
@@ -115,14 +115,14 @@ const Settings = () => {
           <button
             type="button"
             onClick={() => navigate("/")}
-            className="w-full bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 rounded mt-4"
+            className="w-full bg-gray-600 hover:bg-gray-500 text-white font-bold py-3 rounded-md mt-4"
           >
             Back to Dashboard
           </button>
         </form>
       </div>
     </div>
-    );
+  );
 };
 
 export default Settings;
